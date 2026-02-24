@@ -39,6 +39,8 @@ r = 0.3
 def distancia(p1, p2):
     return math.sqrt((p2[0] - p1[0])**2 + (p2[1] - p1[1])**2)
 
+
+# Funcao para clacificar novo user
 def classificar_ponto(centro, dots_1, dots_2, r):
     contador_comedia = 0
     contador_drama = 0
@@ -51,7 +53,7 @@ def classificar_ponto(centro, dots_1, dots_2, r):
         if distancia(centro, ponto) <= r:
             contador_drama += 1
 
-    print("====Novo Cliente====")
+    print("==== Novo Cliente ====")
     print("Pontos de Comédia dentro da circunferência:", contador_comedia)
     print("Pontos de Drama dentro da circunferência:", contador_drama)
 
@@ -59,10 +61,28 @@ def classificar_ponto(centro, dots_1, dots_2, r):
         return "COMÉDIA (azul)\n"
     elif contador_drama > contador_comedia:
         return "DRAMA (vermelho)\n"
+
     else:
-        return "Empate - não é possível classificar com este raio\n"
+        print("Nenhum ponto dentro do raio. Usando o mais próximo...")
 
+        menor_distancia = float('inf')
+        grupo_mais_proximo = ""
 
+        # Verificar comédia
+        for ponto in dots_1:
+            d = distancia(centro, ponto)
+            if d < menor_distancia:
+                menor_distancia = d
+                grupo_mais_proximo = "COMÉDIA (azul)"
+
+        # Verificar drama
+        for ponto in dots_2:
+            d = distancia(centro, ponto)
+            if d < menor_distancia:
+                menor_distancia = d
+                grupo_mais_proximo = "DRAMA (vermelho)"
+
+        return grupo_mais_proximo + " (mais próximo)\n"
 
 resultado = classificar_ponto(newdot[0], dots_1, dots_2, r)
 
